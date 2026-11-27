@@ -34,6 +34,7 @@ project(flight_data C CXX ASM)
 pico_sdk_init()
 
 add_subdirectory(tools/i2c_scan)
+add_subdirectory(tools/adxl375_test)
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(flight_data
