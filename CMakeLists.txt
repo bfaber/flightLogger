@@ -40,6 +40,8 @@ add_executable(flight_data
     src/main.cpp
     src/flight_computer.cpp
     sensors/bmp390.cpp
+    sensors/adxl375.cpp
+    sensors/I2CDevice.cpp
     storage/flash_logger.cpp
 )
 

@@ -13,46 +13,10 @@ namespace {
     constexpr uint8_t CHIP_ID      = 0x60;
     constexpr uint8_t REG_OSR      = 0x1C;
     constexpr uint8_t REG_ODR      = 0x1D;
-
-    uint16_t u16(const uint8_t* b) {
-        return uint16_t(b[0]) | (uint16_t(b[1]) << 8);
-    }
-
-    int16_t s16(const uint8_t* b) {
-        uint16_t value = u16(b);
-        int32_t signed_value = value;
-        if (value & 0x8000)
-            signed_value -= 65536;
-        return static_cast<int16_t>(signed_value);
-    }
-
-    int8_t s8(uint8_t b) {
-        return static_cast<int8_t>(
-            b < 128 ? int(b) : int(b) - 256);
-    }
 }
 
 BMP390::BMP390(i2c_inst_t* i2c, uint8_t address)
-    : i2c_(i2c), address_(address) {}
-
-bool BMP390::readRegisters(
-    uint8_t reg, uint8_t* data, size_t length) {
-
-    if (i2c_write_blocking(i2c_, address_, &reg, 1, true) != 1)
-        return false;
-
-    return i2c_read_blocking(
-        i2c_, address_, data, length, false
-    ) == static_cast<int>(length);
-}
-
-bool BMP390::writeRegister(uint8_t reg, uint8_t value) {
-    uint8_t data[] = {reg, value};
-
-    return i2c_write_blocking(
-        i2c_, address_, data, 2, false
-    ) == 2;
-}
+    : I2CDevice(i2c, address) {}
 
 bool BMP390::readFactoryCalibration(
     uint8_t (&bytes)[21]) {
