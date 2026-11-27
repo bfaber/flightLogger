@@ -33,6 +33,7 @@ project(flight_data C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+add_subdirectory(tools/i2c_scan)
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(flight_data
