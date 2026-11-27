@@ -3,8 +3,9 @@
 #include <cstddef>
 #include <cstdint>
 #include "hardware/i2c.h"
+#include "I2CDevice.h"
 
-class BMP390 {
+class BMP390 : public I2CDevice {
 public:
     struct RawSample {
         uint32_t pressure;
@@ -44,10 +45,5 @@ private:
     double compensateTemperature(uint32_t raw, double& t_lin) const;
     double compensatePressure(uint32_t raw, double t_lin) const;
 
-    bool readRegisters(uint8_t reg, uint8_t* data, size_t length);
-    bool writeRegister(uint8_t reg, uint8_t value);
-
-    i2c_inst_t* i2c_;
-    uint8_t address_;
     Calibration calib_{};
 };
